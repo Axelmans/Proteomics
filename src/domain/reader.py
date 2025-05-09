@@ -1,11 +1,7 @@
 from pyteomics import mzml, pepxml
-
-import matplotlib
-import matplotlib.pyplot as plt
 import os
 
-matplotlib.use('Agg')
-
+from src.domain.analyzer import Analyzer
 
 class Reader:
 
@@ -23,16 +19,16 @@ class Reader:
 
     @staticmethod
     def __analyze_mzml(file: str):
-        pass
+        return
 
     @staticmethod
     def __analyze_pepxml(file: str):
         with pepxml.read(file) as spectra:
             for spectrum in spectra:
-                print(spectrum)
-                annotation = spectrum['spectrum']
-                search_hit = spectrum['search_hit']
+                # Each spectrum will be analyzed in analyzer.py
+                Analyzer.analyze_spectrum(spectrum)
+        return
 
     @staticmethod
     def __analyse_pin(file: str):
-        pass
+        return
