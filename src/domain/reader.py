@@ -27,6 +27,7 @@ class Reader:
             for spectrum in spectra:
                 # Each spectrum will be analyzed in analyzer.py
                 Analyzer.analyze_spectrum(spectrum)
+                break
         return
 
     @staticmethod
