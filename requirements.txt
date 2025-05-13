@@ -1,3 +1,5 @@
 lxml
 matplotlib
 pyteomics
+pandas
+scipy
