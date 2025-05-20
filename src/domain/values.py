@@ -1,5 +1,7 @@
 import enum
 import itertools
+from curses.ascii import isdigit
+from pyteomics import fasta
 
 class EthnicGroups(enum.Enum):
 
@@ -51,22 +53,31 @@ class PTM(enum.Enum):
     NEDDYLATION = 114.0429
     SUMOYLATION = 383.2281
 
-def ethnic_group(spectrum_name):
-    # first 2 characters of the name refer to the number of an individual
-    number = spectrum_name[:2]
-    # iterate over all the groups and return the one with which the number matches
+def get_individual(spectrum_name):
+    # First 3 or 2 characters of the name refer to the number of the individual.
+    if spectrum_name[:3].isdigit():
+        return spectrum_name[:3]
+    elif spectrum_name[:2].isdigit():
+        return spectrum_name[:2]
+    # Again, this is a case that shouldn't normally occur at all.
+    else:
+        raise ValueError(f"Couldn't get individual number out of spectrum name: \"{spectrum_name}\"")
+
+def get_ethnic_group(spectrum_name):
+    number = get_individual(spectrum_name)
+    # Iterate over all the groups and return the one with which the number matches.
     groups = []
     for group in EthnicGroups:
         if number in group.value:
             groups.append(group.name)
-    # return UNDEFINED in case the number does not match any group (normally this should never happen)
+    # Return UNDEFINED in case the number does not match any group (normally this should never happen).
     return "/".join(groups) if len(groups) > 0 else 'UNDEFINED'
 
 def __generate_ptm_combos():
-    # Generates all combinations of proteomics so mass differences can be matched
+    # Generates all combinations of proteomics so mass differences can be matched.
     combos = {}
     ptm_items = list(PTM)
-    # Limit to combinations of at most 3 items (Jan explained why)
+    # Limit to combinations of at most 3 items.
     for r in range(1, 4):
         for combo in itertools.combinations(ptm_items, r):
             combos[tuple(ptm.name for ptm in combo)] = sum(ptm.value for ptm in combo)
@@ -74,12 +85,23 @@ def __generate_ptm_combos():
 
 ptm_combos = __generate_ptm_combos()
 
-def match_ptm_combo(precursor_neutral_mass: float, calc_neutral_pep_mass: float):
-    mass_deficit: float = precursor_neutral_mass - calc_neutral_pep_mass
-    # iterate over all ptm combinations and return the closest match
-    ptm_combo_match = min(ptm_combos.items(), key=lambda item: abs(item[1] - mass_deficit))[0]
-    match_json = {
-        'match': list(ptm_combo_match),
-        'difference': abs(mass_deficit - ptm_combos[ptm_combo_match])
-    }
-    return match_json
+def match_ptm_combo(mass_diff: float):
+    # iterate over all ptm combinations and return the closest match.
+    best_match = list(min(ptm_combos.items(), key=lambda item: abs(item[1] - mass_diff))[0])
+    return best_match, abs(mass_diff - ptm_combos[tuple(best_match)])
+
+SEQUENCES = {}
+
+with fasta.read('fasta_db.fasta.fas') as entries:
+    for description, sequence in entries:
+        protein = description.split(' ')[0]
+        SEQUENCES[protein] = sequence
+
+def substitution(peptide):
+    pass
+
+def __substitution_distance_leq_one(peptide, sequence):
+    if len(peptide) != len(sequence):
+        return False
+    difference = sum(a != b for a, b in zip(s1, s2))
+    return difference == 1

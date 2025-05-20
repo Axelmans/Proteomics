@@ -1,3 +1,5 @@
+fuzzysearch
 lxml
 matplotlib
 pyteomics
+tqdm
