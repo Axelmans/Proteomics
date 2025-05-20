@@ -2,4 +2,6 @@ fuzzysearch
 lxml
 matplotlib
 pyteomics
+pandas
+scipy
 tqdm
