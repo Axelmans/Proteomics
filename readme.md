@@ -8,16 +8,18 @@ The primary goal was to investigate whether significant differences could be obs
 
 This project aims to contribute to unbiased research in proteomics, addressing the still rather prevalent issue that biological studies often disproportionately focus on a single ethnic group.
 However, biologically relevant differences between ethnic groups do exist, and being aware of them goes a long way towards better and more personalised care.
+
 # Research Questions  
 1. Does an Open Search annotate more spectra than a Closed Search?
 2. Which PTM's are present inside each individual and at what frequencies?
-3. Which amino-acid substitutions are present and how does this differ between ethnical groups?
+
 # Practical
 The Python code uses the __pyteomics__ library. An abstract base class named __Analyser__ is defined in __analyser.py__, which gets derived by more concrete analysers for analysing the __.pepXML__ files.
 
 There is a directory with such files for both searches.
 
 Each derived class reads  __.pepXML__ files, but differs in the way they use their information. 
+
 # Question 1
 The relevant file for this question is __stats.py__, here is the general approach of its analysis:
 1. Search hits are filtered: only matches with a low enough "expect" score (<= 0.05) count as annotations.
@@ -82,5 +84,3 @@ Here are some observations:
 All other PTM's also show at least some variance, but to a lesser extent.
 
 In general, the PTM matches seem to vary by individual, and not by ethnic group.
-
-# Question 3  
