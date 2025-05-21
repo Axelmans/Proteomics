@@ -6,7 +6,8 @@ Python code was written to further explore and manipulate the results from this 
 The dataset consists of proteomic profiles from cancer patients belonging to diverse ethnic groups.  
 The primary goal was to investigate whether significant differences could be observed between these groups.
 
-This project aims 
+This project aims to contribute to unbiased research in proteomics, addressing the still rather prevalent issue that biological studies often disproportionately focus on a single ethnic group.
+However, biologically relevant differences between ethnic groups do exist, and being aware of them goes a long way towards better and more personalised care.
 # Research Questions  
 1. Does an Open Search annotate more spectra than a Closed Search?
 2. Which PTM's are present inside each individual and at what frequencies?
@@ -72,7 +73,7 @@ The relevant files for this question are __matcher.py__ and __plotter.py__, here
 
 After the database is filled, we can retrieve the information to generate a plot for each individual, where the x-axis contains all matched PTM's and the y-axis dictates the frequency, here is an example:
 
-*image here*
+![02](https://github.com/user-attachments/assets/42338f23-4096-4be9-a07f-4dd767917049)
 
 Here are some observations:
 - The frequencies vary between individuals, likely due to differences in confident search hits and close enough PTM combination matches. The overall shape of the plots seems to match, however.
