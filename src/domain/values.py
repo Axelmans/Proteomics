@@ -89,19 +89,3 @@ def match_ptm_combo(mass_diff: float):
     # iterate over all ptm combinations and return the closest match.
     best_match = list(min(ptm_combos.items(), key=lambda item: abs(item[1] - mass_diff))[0])
     return best_match, abs(mass_diff - ptm_combos[tuple(best_match)])
-
-SEQUENCES = {}
-
-with fasta.read('fasta_db.fasta.fas') as entries:
-    for description, sequence in entries:
-        protein = description.split(' ')[0]
-        SEQUENCES[protein] = sequence
-
-def substitution(peptide):
-    pass
-
-def __substitution_distance_leq_one(peptide, sequence):
-    if len(peptide) != len(sequence):
-        return False
-    difference = sum(a != b for a, b in zip(s1, s2))
-    return difference == 1

@@ -1,0 +1,12 @@
+{
+    "Open": {
+        "Spectra": 5601923,
+        "Expect Threshold": 0.05,
+        "Annotations": 1838696,
+        "Annotation Ratio": 0.328,
+        "Decoy Annotations": 9820,
+        "Target Annotations": 1828876,
+        "False Discovery Rate (FDR)": 0.005,
+        "FDR threshold": 0.05
+    }
+}

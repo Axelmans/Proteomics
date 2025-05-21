@@ -1,0 +1,12 @@
+{
+    "Closed": {
+        "Spectra": 5001126,
+        "Expect Threshold": 0.05,
+        "Annotations": 1253250,
+        "Annotation Ratio": 0.251,
+        "Decoy Annotations": 10761,
+        "Target Annotations": 1242489,
+        "False Discovery Rate (FDR)": 0.009,
+        "FDR threshold": 0.005
+    }
+}

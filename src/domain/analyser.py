@@ -5,9 +5,11 @@ from pyteomics import pepxml
 class Analyser:
 
     def __init__(self):
-        self.pepxml_directory: str = "pepxml/"
+        # Default to directory of the open search.
+        self.pepxml_directory: str = "pepxml_open/"
 
     def analyse(self):
+        # Analyse all files, keep track of how long each file takes.
         start = time.time()
         for number, file in enumerate(os.listdir(self.pepxml_directory)):
             file_start = time.time()
@@ -24,6 +26,7 @@ class Analyser:
                 self.analyse_spectrum(spectrum)
         return
 
+    # These functions are overridden by the concrete classes
     def analyse_spectrum(self, spectrum):
         return
 
