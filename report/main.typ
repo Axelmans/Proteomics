@@ -37,13 +37,12 @@
 )
 
 = Introduction
-In het snel evoluerende veld van proteomics speelt massaspectrometrie (MS) een cruciale rol in het ontrafelen van de complexiteit van eiwitten en hun modificaties. Post-translationele modificaties (PTMs) en aminozuursubstituties zijn essentiële factoren die eiwitfunctie, stabiliteit en interacties beïnvloeden, met mogelijke implicaties voor gezondheid en ziekte. Dit onderzoek richt zich op twee centrale vragen: (1) Waar dienen PTM's voor en wat zijn ze eigenlijk? en (2) Komen aminozuursubstituties vaker voor in bepaalde populaties (bijv. White vs. Black or African American)?
 
-Met behulp van FragPipe (inclusief tools zoals MSFragger) worden ruwe MS-data verwerkt tot geannoteerde eiwitprofielen, waarna Python en R ingezet worden voor verdere statistische en bio-informatica-analyses. Door verschillen in PTM-patronen en substitutiefrequenties tussen populaties te onderzoeken, hopen we inzicht te krijgen in potentiële genetische of omgevingsgebonden invloeden op eiwitdiversiteit.
+In ons onderzoeks project hebben wij ons gericht op het veld van proteomics/ spectrometrie, waaronder post-translationele modificaties (PTMs) en aminozuursubstituties. Deze variaties beïnvloeden eiwitfuncties en kunnen verband houden met gezondheid en ziekte. Dit onderzoek richt zich op twee hoofdvragen: (1) Of een Open Search-benadering meer spectra identificeert dan een traditionele Closed Search, en (2) of PTM-patronen en aminozuursubstituties verschillen tussen etnische groepen, zoals White versus Black/African American populaties.
 
-Dit verslag presenteert de methodologie, resultaten en conclusies van deze analyse, met als doel bij te dragen aan het begrip van eiwitvariatie tussen individuen en populaties.
+Met FragPipe (inclusief MSFragger) verwerkten we MS-data tot geannoteerde eiwitprofielen, waarna Python en R werden gebruikt voor statistische en bio-informatica-analyses. Door spectra-annotatiemethoden te vergelijken, willen we inzicht krijgen in de voordelen van Open Search. Daarnaast onderzoeken we of genetische of omgevingsfactoren leiden tot verschillen in PTMs tussen populaties.
 
-Voor degene die meer geintereseerd zijn in de volledige in's en out's van dit project, nodig ik je zeker uit om een kijkje te nemen naar onze #link("https://github.com/Axelmans/Proteomics")[Github Repository] voor de rcode en python code die gebruikt is om het uiteindelijke resultaat te bereiken.
+Alle gebruikte code en analysemethoden zijn openbaar beschikbaar in onze [#link("https://github.com/Axelmans/Proteomics")[Github Repository]], zodat onze bevindingen reproduceerbaar en transparant zijn. Dit onderzoek draagt bij aan een beter begrip van eiwitvariatie en kan toekomstige studies naar genetische en moleculaire mechanismen ondersteunen.
 
 = Dataset
 Voor dit onderzoek werd een selectie gemaakt van tumorstalen afkomstig uit verschillende etnische groepen: African, Asian, Hispanic, Native, Other, en White. Deze dataset biedt een unieke mogelijkheid om proteomische variaties te bestuderen in relatie tot genetische achtergrond, wat relevant is voor onderzoek naar gepersonaliseerde geneeskunde en tumorbiologie.
@@ -360,4 +359,30 @@ Dit onderzoek kan uiteraard nog verbeterd en/of uitgebreid worden:
 3.	De opschaling in Python kon eventueel afgerond worden met statistische significantietesten die de waarnemingen bevestigen of ontkrachten.
 4.	Om de etnische groepen verder te vergelijken, zou het ook interessant kunnen zijn om aminozuursubstituties te achterhalen en hoe dit mogelijks verschilt per groep.
 
+#pagebreak()
+
+
+= Chan Ming Jan - Biologie
+- Theorethische achtergrond rond proteometics en spectrometrie verduidelijkt.
+- In R code PTM  subset analyzer geimplementeerd.
+- In R code AA Sequence variant finder geimplementeerd.
+- Conlusies trekken met ANOVA.
+- Biologische steun voor de groep.
+- Research resultaten tekst geleverd for finale report.
+
+= Axel De Leeuw - Informatica
+- Dataset door fragpipe laten proccesen.
+- Research rond dataset, fragpipe en CalcUA (supercomputer) gebruik.
+- Analyze in python rond Open vs Closed search geimplementeerd.
+- Geresearched rond aminozuur substituties.
+- PTM match graphs geleverd.
+- Research resultaten geleverd for finale report.
+
+= Anass Hamzaoui - Informatica
+- Dataset door fragpipe laten proccesen.
+- Research rond dataset, fragpipe en CalcUA (supercomputer) gebruik.
+- Analyze in python rond Open vs Closed search geimplementeerd.
+- Alle report material bij elkaar getrokken.
+- Report in typst format in elkaar gestoken.
+- Jan's R code geconvert naar python.
 
