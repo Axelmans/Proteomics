@@ -53,6 +53,44 @@ Een belangrijk aspect van deze dataset is de etnische diversiteit, waardoor we v
 
 De combinatie van massaspectrometrie-gegevens en bio-informatica-analyses (Python/R) stelt ons in staat om zowel globale trends als subtiele, maar klinisch relevante, verschillen tussen populaties te detecteren. Dit maakt de dataset niet alleen waardevol voor fundamenteel onderzoek, maar ook voor toekomstige translationele toepassingen.
 
+
+#v(10pt)
+= Closed vs. Open search
+#v(10pt)
+Closed Search en Open Search zijn beide technieken om spectra te matchen aan peptiden. Het voornaamste verschil is dat bij Closed Search er enkel gematched wordt indien het massaverschil tussen het spectrum en peptide zeer klein is (b.v. ±20 ppm).
+Dit heeft als gevolg dat enkel spectra met weinig tot geen modificaties gematched worden.
+Bij Open Search mag dit verschil veel groter zijn, wat veel meer (combinaties van) modificaties toestaat op spectra terwijl deze nog steeds gematched kunnen worden.
+
+#figure(
+  image("ReportData/Picture26.png")
+)
+
+
+Het is echter niet gegarandeerd dat Open Search hierdoor meer spectra annoteert.                         In het geval dat alle spectra een klein massaverschil vertonen met een bepaald peptide draagt Open Search niets bij, terwijl dat voor dit onderzoek zeker wel gewenst is.                    Daarom werd vooraf een vergelijkend onderzoek gedaan tussen de 2 op onze dataset.
+
+De code gaat elk spectrum af, en houdt enkel rekening met betrouwbare matches.              Hiervoor werd gekeken naar de zogenaamde ‘expect’ score, die de kans geeft dat een match louter toeval was, bij voorkeur is deze kans laag (<= 5%). Tussen alle betrouwbare matches werd onderscheid gemaakt tussen target matches en decoy matches om de False Discovery Rate (FDR) te kunnen bepalen, ook deze waarde is bij voorkeur klein (<= 5%).
+
+De vergelijking tussen de 2 technieken gaf de volgende conclusies:
+
+1.	Bij Open Search neemt het aantal betrouwbare annotaties toe met 50% ten opzichte van het aantal annotaties bij Closed Search (1838696 vs. 1253250).
+2.	Het aantal decoy matches is iets groter bij Closed Search (10761 vs. 9820).
+3.	Closed Search heeft een grotere FDR, maar blijft onder 5% (0,009 vs. 0,005).
+
+Een Open Search uitvoeren is in dit geval dus zinvol, zoals gewenst.
+
+#v(10pt)
+== Mogelijke uitbreiding en verbetering
+#v(10pt)
+
+Dit onderzoek kan uiteraard nog verbeterd en/of uitgebreid worden:
+
+1.	De vergelijking tussen Closed en Open Search zou uitgebreid kunnen worden:                 het zou bijvoorbeeld interessant kunnen zijn om de overlap in peptiden die gematched werden te vergelijken tussen de 2 technieken.
+2.	Naast PTM’s te kunnen matchen zou het ook interessant zijn om te kunnen bepalen waar deze PTM’s zich exact op het peptide bevinden, dit viel echter niet te achterhalen uit de data in de .pepXML bestanden.
+3.	De opschaling in Python kon eventueel afgerond worden met statistische significantietesten die de waarnemingen bevestigen of ontkrachten.
+4.	Om de etnische groepen verder te vergelijken, zou het ook interessant kunnen zijn om aminozuursubstituties te achterhalen en hoe dit mogelijks verschilt per groep.
+
+
+
 = PTM analyze
 == R implementatie
 Het doel van dit R script is een om een diagnostische tool te ontwikkelen om specifieke regulatorische pathways te ontdekken op basis van post-translationele modificaties (PTM’s). Dit script bevat een uitgebreide lijst aan gekende PTM’s die in diverse fysiologische condities relevant kunnen zijn.
@@ -246,6 +284,25 @@ De nulhypothese van een Fisher exacte test is dat 2 PTM’s onafhankelijk zijn (
   image("ReportData/Picture25.png")
 )
 De kans dat bijvoorbeeld carbamylatie en methylatie onafhankelijk voorkomen is bijvoorbeeld extreem klein. De kleinste p-waarden heb ik van boven laten verschijnen met order. 
+
+
+#v(10pt)
+== Opschaling in python
+#v(10pt)
+De PTM analyse werd ook geïmplementeerd in Python om het daar op te schalen voor alle .pepXML bestanden. Alle details van de code zijn terug te vinden in de Github repository, maar hier is een algemene overview van het proces:
+
+1.	Opnieuw is er enkel interesse in betrouwbare target matches (expect <= 5%).
+2.	Indien er een PTM-combinatie gematched kan worden met genoeg betrouwbaarheid, wordt dit opgeslagen in een lokale database.
+3.	Wanneer de database gevuld is, kunnen de PTM matches per individu worden opgevraagd en geplot op een grafiek, waarna er eindelijk vergeleken kan worden tussen individuen. Alle plots staan eveneens op Github.
+
+Het volgende kon uit de grafieken waargenomen worden:
+
+1.	De gemeten frequenties per individu variëren, waarschijnlijk omdat niet elke betrouwbare target match betrouwbaar gematched kon worden met PTM’s.
+2.	Carbamidomethyl, Carbamylation en Methylation zijn de meest voorkomende            PTM’s bij alle individuen over alle groepen.
+3.	De volgende 6 PTM’s hadden de meest zichtbare variantie in de frequenties: Dimethylation, Dioxidation, Disulfideloss, Nitration, Nitrosylation and Oxidation.
+
+Er werden geen significante verschillen waargenomen tussen de groepen.
+
 #v(10pt)
 == Substition finder
 #v(10pt)
@@ -305,59 +362,6 @@ Finaal gaan we kijken naar de PTM’s die specifiek het tumor suppressie pathway
 de frequentie van de PTM’s verschilt niet significant tussen verschillende etnische groepen. Er is geen enkele p-waarde kleiner dan 0,05 gevonden. Het is duidelijk dat deze tumorsuppressie-pathway sterk geconserveerd is. Met andere woorden, deze moleculaire signaalcascade was al reeds aanwezig in een voorouderlijk organisme en werd dus overgeërfd naar de vroege Homo sapiens, dit verklaart de gelijkenis in PTM frequentie doorheen deze etnische groepen. 
 
 Met dit project is niet alleen een reproduceerbare analytische pijplijn gecreëerd, maar ook een basis gelegd voor toekomstige studies naar proteomische diversiteit in verschillende populaties.
-
-
-#v(10pt)
-= Closed vs. Open search
-#v(10pt)
-Closed Search en Open Search zijn beide technieken om spectra te matchen aan peptiden. Het voornaamste verschil is dat bij Closed Search er enkel gematched wordt indien het massaverschil tussen het spectrum en peptide zeer klein is (b.v. ±20 ppm).
-Dit heeft als gevolg dat enkel spectra met weinig tot geen modificaties gematched worden.
-Bij Open Search mag dit verschil veel groter zijn, wat veel meer (combinaties van) modificaties toestaat op spectra terwijl deze nog steeds gematched kunnen worden.
-
-#figure(
-  image("ReportData/Picture26.png")
-)
-
-
-Het is echter niet gegarandeerd dat Open Search hierdoor meer spectra annoteert.                         In het geval dat alle spectra een klein massaverschil vertonen met een bepaald peptide draagt Open Search niets bij, terwijl dat voor dit onderzoek zeker wel gewenst is.                    Daarom werd vooraf een vergelijkend onderzoek gedaan tussen de 2 op onze dataset.
-
-De code gaat elk spectrum af, en houdt enkel rekening met betrouwbare matches.              Hiervoor werd gekeken naar de zogenaamde ‘expect’ score, die de kans geeft dat een match louter toeval was, bij voorkeur is deze kans laag (<= 5%). Tussen alle betrouwbare matches werd onderscheid gemaakt tussen target matches en decoy matches om de False Discovery Rate (FDR) te kunnen bepalen, ook deze waarde is bij voorkeur klein (<= 5%).
-
-De vergelijking tussen de 2 technieken gaf de volgende conclusies:
-
-1.	Bij Open Search neemt het aantal betrouwbare annotaties toe met 50% ten opzichte van het aantal annotaties bij Closed Search (1838696 vs. 1253250).
-2.	Het aantal decoy matches is iets groter bij Closed Search (10761 vs. 9820).
-3.	Closed Search heeft een grotere FDR, maar blijft onder 5% (0,009 vs. 0,005).
-
-Een Open Search uitvoeren is in dit geval dus zinvol, zoals gewenst.
-
-#v(10pt)
-== Opschaling in python
-#v(10pt)
-De PTM analyse werd ook geïmplementeerd in Python om het daar op te schalen voor alle .pepXML bestanden. Alle details van de code zijn terug te vinden in de Github repository, maar hier is een algemene overview van het proces:
-
-1.	Opnieuw is er enkel interesse in betrouwbare target matches (expect <= 5%).
-2.	Indien er een PTM-combinatie gematched kan worden met genoeg betrouwbaarheid, wordt dit opgeslagen in een lokale database.
-3.	Wanneer de database gevuld is, kunnen de PTM matches per individu worden opgevraagd en geplot op een grafiek, waarna er eindelijk vergeleken kan worden tussen individuen. Alle plots staan eveneens op Github.
-
-Het volgende kon uit de grafieken waargenomen worden:
-
-1.	De gemeten frequenties per individu variëren, waarschijnlijk omdat niet elke betrouwbare target match betrouwbaar gematched kon worden met PTM’s.
-2.	Carbamidomethyl, Carbamylation en Methylation zijn de meest voorkomende            PTM’s bij alle individuen over alle groepen.
-3.	De volgende 6 PTM’s hadden de meest zichtbare variantie in de frequenties: Dimethylation, Dioxidation, Disulfideloss, Nitration, Nitrosylation and Oxidation.
-
-Er werden geen significante verschillen waargenomen tussen de groepen.
-
-#v(10pt)
-== Mogelijke uitbreiding en verbetering
-#v(10pt)
-
-Dit onderzoek kan uiteraard nog verbeterd en/of uitgebreid worden:
-
-1.	De vergelijking tussen Closed en Open Search zou uitgebreid kunnen worden:                 het zou bijvoorbeeld interessant kunnen zijn om de overlap in peptiden die gematched werden te vergelijken tussen de 2 technieken.
-2.	Naast PTM’s te kunnen matchen zou het ook interessant zijn om te kunnen bepalen waar deze PTM’s zich exact op het peptide bevinden, dit viel echter niet te achterhalen uit de data in de .pepXML bestanden.
-3.	De opschaling in Python kon eventueel afgerond worden met statistische significantietesten die de waarnemingen bevestigen of ontkrachten.
-4.	Om de etnische groepen verder te vergelijken, zou het ook interessant kunnen zijn om aminozuursubstituties te achterhalen en hoe dit mogelijks verschilt per groep.
 
 #pagebreak()
 
