@@ -89,3 +89,15 @@ def match_ptm_combo(mass_diff: float):
     # iterate over all ptm combinations and return the closest match.
     best_match = list(min(ptm_combos.items(), key=lambda item: abs(item[1] - mass_diff))[0])
     return best_match, abs(mass_diff - ptm_combos[tuple(best_match)])
+
+def __load_fasta():
+    fasta_db_dict = {}
+    with fasta.read("fasta.fas") as file:
+        for protein in file:
+            header, sequence = protein
+            if header.startswith("rev_sp"):
+                continue
+            fasta_db_dict[header.split(' ')[0]] = sequence
+    return fasta_db_dict
+
+fasta_db = __load_fasta()

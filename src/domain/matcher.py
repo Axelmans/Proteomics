@@ -13,21 +13,13 @@ class Matcher(Analyser):
         clear_tables()
         self.analyse()
 
-    # Read all spectra in a .pepXML file and analyze each one.
-    def analyze_pepxml(self, file: str):
-        with pepxml.read(file) as spectra:
-            for spectrum in spectra:
-                # Each spectrum will be analyzed in matcher.py.
-                self.analyze_spectrum(spectrum)
-        return
-
     # Analyzes spectra according to the research questions' needs.
     def analyze_spectrum(self, spectrum):
         for hit in spectrum['search_hit']:
             # We only want hits with rank 1 and a low enough expect score (5%), ignore all others.
             if hit['search_score']['expect'] <= self.expect_threshold:
                 # Decoy matches should be ignored.
-                if self.decoy_match(hit):
+                if self.__decoy_match(hit):
                     continue
                 # Match the mass difference to PTMs.
                 individual = get_individual(spectrum['spectrum'])
@@ -41,10 +33,6 @@ class Matcher(Analyser):
         return
 
     # A decoy match can be recognized by the "rev_" prefix in proteins.
-    def decoy_match(self, hit):
-        if any(prot['protein'].startswith("rev_") for prot in hit['proteins']):
-            self.decoy_match_count += 1
-            return True
-        else:
-            self.target_match_count += 1
-            return False
+    @staticmethod
+    def __decoy_match(hit):
+        return any(prot['protein'].startswith("rev_") for prot in hit['proteins'])
