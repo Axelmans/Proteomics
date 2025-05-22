@@ -1,6 +1,6 @@
 from pyteomics import pepxml
 from src.domain.analyser import Analyser
-from src.domain.values import get_individual, get_ethnic_group, match_ptm_combo, SEQUENCES
+from src.domain.values import get_individual, get_ethnic_group, match_ptm_combo
 from src.db.db import add_ptm_match, clear_tables
 
 class Matcher(Analyser):
