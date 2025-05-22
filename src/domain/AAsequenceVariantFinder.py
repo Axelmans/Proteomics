@@ -16,22 +16,19 @@ def main():
     pepXML_path = "test.pepXML"
     fasta_path = "test.fasta"
     
-    # Read data
     tree = ET.parse(pepXML_path)
     root = tree.getroot()
     fasta_dict = read_fasta(fasta_path)
     
-    # Extract all PSMs
     namespace = {'d1': 'http://regis-web.systemsbiology.net/pepXML'}
     spectrum_queries = root.findall('.//d1:spectrum_query', namespace)
     total_psms = len(spectrum_queries)
     
-    # Subsampling strategy
     chunk_size = max(1, total_psms // 5)
     sample_size = 150
     sample_indices = []
     
-    for i in range(3):  # 0, 1, 2
+    for i in range(3):  
         start_idx = i * chunk_size + 1
         end_idx = min((i + 1) * chunk_size, total_psms)
         if start_idx > end_idx:
@@ -88,7 +85,7 @@ def main():
                 variants.append({
                     'original': peptide,
                     'variant': window,
-                    'position': j + changes[0] + 1,  # +1 for 1-based position
+                    'position': j + changes[0] + 1,  
                     'substitutions': subst
                 })
         
@@ -99,7 +96,6 @@ def main():
                     **var
                 })
     
-    # Generate and print output
     if results:
         print("\n==== SEQUENCE VARIANTS FOUND ====\n")
         for result in results:
